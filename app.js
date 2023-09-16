@@ -43,6 +43,24 @@ app.get('/get/:namespace/:key', (req, res) => {
   res.json({ value: count, timestamp });
 });
 
+// Endpoint to reset a counter to 0
+app.get('/reset/:namespace/:key', (req, res) => {
+  const { namespace, key } = req.params;
+  const counterKey = `${namespace}/${key}`;
+
+  if (!counters[counterKey]) {
+    // Counter does not exist, return an error response
+    return res.status(404).json({ error: 'Counter not found' });
+  }
+
+  // Reset the counter to 0
+  counters[counterKey].count = 0;
+  counters[counterKey].timestamp = new Date(); // Update the timestamp
+
+  res.json({ value: counters[counterKey].count, timestamp: counters[counterKey].timestamp });
+});
+
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
