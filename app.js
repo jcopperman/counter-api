@@ -75,6 +75,14 @@ app.get('/reset/:namespace/:key', (req, res) => {
 
 // VIP User Route
 app.get('/vip-access', (req, res) => {
+  const vipToken = req.header('X-VIP-Token');
+
+  // Check if the provided VIP token matches the expected token
+  if (vipToken !== "1234") { // Replace with your expected token
+    return res.status(403).json({ error: 'Unauthorized access' });
+  }
+
+  // VIP token is valid, proceed with the VIP route
   res.send('Welcome, VIP user!');
 });
 
