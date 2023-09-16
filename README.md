@@ -2,17 +2,6 @@
 
 This is a simple Node.js API that provides endpoints for managing counters identified by namespaces and keys.
 
-## Table of Contents
-
-- [Overview](#overview)
-- [Endpoints](#endpoints)
-- [Usage](#usage)
-- [Installation](#installation)
-- [Running the Server](#running-the-server)
-- [Example Requests](#example-requests)
-- [Author](#author)
-- [License](#license)
-
 ## Overview
 
 The Counter API is designed to manage counters in memory, allowing you to increment and retrieve counter values within specific namespaces and keys. It also provides a reset functionality to reset a counter to 0.
