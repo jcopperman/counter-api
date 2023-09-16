@@ -12,32 +12,6 @@ const counters = {
 // Middleware to parse JSON requests
 app.use(express.json());
 
-// Middleware to validate VIP token
-app.use((req, res, next) => {
-  const vipToken = req.header('X-VIP-Token');
-  
-  // Check if the provided VIP token matches the expected token
-  if (vipToken !== "1234"){//process.env.VIP_TOKEN) {
-    return res.status(403).json({ error: 'Unauthorized access' });
-  }
-
-  // VIP token is valid, proceed with the request
-  next();
-});
-
-// VIP User Route
-app.get('/vip-access', (req, res) => {
-  const vipToken = req.header('X-VIP-Token');
-
-  // Check if the provided VIP token matches the expected token
-  if (vipToken !== "1234") { // Replace with your expected token
-    return res.status(403).json({ error: 'Unauthorized access' });
-  }
-
-  // VIP token is valid, proceed with the VIP route
-  res.send('Welcome, VIP user!');
-});
-
 app.get('/', (req, res) => {
   res.send('Hello, this is the root route!');
 });
