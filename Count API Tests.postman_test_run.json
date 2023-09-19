@@ -1,0 +1,238 @@
+{
+	"id": "d7285be1-f0be-4a74-998d-49ddff013af7",
+	"name": "Count API Tests",
+	"timestamp": "2023-09-17T10:09:36.879Z",
+	"collection_id": "1289213-e8eaee47-fded-4339-a388-c88a490609da",
+	"folder_id": 0,
+	"environment_id": "1289213-caf56b4d-a814-4422-b97d-9ae89a89c9be",
+	"totalPass": 10,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2023-09-17T10:09:33.452Z",
+	"totalFail": 1,
+	"results": [
+		{
+			"id": "5a470141-8f6d-44ec-bb45-3daee6869b1e",
+			"name": "ResetCounter",
+			"url": "https://counter-api-5xwn.onrender.com/reset/namespace1/key1",
+			"time": 373,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Counter has been reset to 0": true
+			},
+			"testPassFailCounts": {
+				"Counter has been reset to 0": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				373
+			],
+			"allTests": [
+				{
+					"Counter has been reset to 0": true
+				}
+			]
+		},
+		{
+			"id": "33c41f24-ccac-418d-844e-a50bb630b810",
+			"name": "GetInvalidEndpoint",
+			"url": "https://counter-api-5xwn.onrender.com/mouse/namespace1/key1/trap",
+			"time": 350,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"404 Error is returned": true
+			},
+			"testPassFailCounts": {
+				"404 Error is returned": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				350
+			],
+			"allTests": [
+				{
+					"404 Error is returned": true
+				}
+			]
+		},
+		{
+			"id": "b2852daf-7c32-4825-9933-d5d515eb1c92",
+			"name": "IncrementCounter",
+			"url": "https://counter-api-5xwn.onrender.com/hit/namespace1/key1",
+			"time": 350,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response status code is 200": true,
+				"Response has the required field - value": true,
+				"Value is a non-negative integer": true,
+				"Response time is within an acceptable range": true,
+				"Count should be incremented by 1": true
+			},
+			"testPassFailCounts": {
+				"Response status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response has the required field - value": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Value is a non-negative integer": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is within an acceptable range": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Count should be incremented by 1": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				350
+			],
+			"allTests": [
+				{
+					"Response status code is 200": true,
+					"Response has the required field - value": true,
+					"Value is a non-negative integer": true,
+					"Response time is within an acceptable range": true,
+					"Count should be incremented by 1": true
+				}
+			]
+		},
+		{
+			"id": "3df47be4-6dfb-4a30-8263-992c1a8c8d95",
+			"name": "GetCounterValue",
+			"url": "https://counter-api-5xwn.onrender.com/get/namespace1/key1",
+			"time": 366,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Timestamp within Tolerance Test": true
+			},
+			"testPassFailCounts": {
+				"Timestamp within Tolerance Test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				366
+			],
+			"allTests": [
+				{
+					"Timestamp within Tolerance Test": true
+				}
+			]
+		},
+		{
+			"id": "fe9931f3-00ac-47a5-ae3b-c13dd16420ad",
+			"name": "GetNamespace1Key(Chain1)",
+			"url": "https://counter-api-5xwn.onrender.com/get/namespace1/key2",
+			"time": 954,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Store key value for Namespace1": true,
+				"Namespace should not contain special characters": false
+			},
+			"testPassFailCounts": {
+				"Store key value for Namespace1": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Namespace should not contain special characters": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				954
+			],
+			"allTests": [
+				{
+					"Store key value for Namespace1": true,
+					"Namespace should not contain special characters": false
+				}
+			]
+		},
+		{
+			"id": "9559927c-a8a1-4b54-9db7-d339a5b0a885",
+			"name": "GetNamespace2Key(Chain2)",
+			"url": "https://counter-api-5xwn.onrender.com/get/namespace2/key3",
+			"time": 367,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Namespace and key combination are unique": true
+			},
+			"testPassFailCounts": {
+				"Namespace and key combination are unique": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				367
+			],
+			"allTests": [
+				{
+					"Namespace and key combination are unique": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 2760,
+	"collection": {
+		"requests": [
+			{
+				"id": "5a470141-8f6d-44ec-bb45-3daee6869b1e",
+				"method": "GET"
+			},
+			{
+				"id": "33c41f24-ccac-418d-844e-a50bb630b810",
+				"method": "GET"
+			},
+			{
+				"id": "b2852daf-7c32-4825-9933-d5d515eb1c92",
+				"method": "GET"
+			},
+			{
+				"id": "3df47be4-6dfb-4a30-8263-992c1a8c8d95",
+				"method": "GET"
+			},
+			{
+				"id": "fe9931f3-00ac-47a5-ae3b-c13dd16420ad",
+				"method": "GET"
+			},
+			{
+				"id": "9559927c-a8a1-4b54-9db7-d339a5b0a885",
+				"method": "GET"
+			}
+		]
+	}
+}

@@ -1,0 +1,322 @@
+{
+	"info": {
+		"_postman_id": "e8eaee47-fded-4339-a388-c88a490609da",
+		"name": "Count API Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1289213"
+	},
+	"item": [
+		{
+			"name": "ResetCounter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Checks that the counter has been reset to 0\r",
+							"pm.test('Counter has been reset to 0', function () {\r",
+							"  pm.response.to.have.status(200); // Ensure a successful response status code\r",
+							"  pm.expect(pm.response.json().value).to.equal(0); // Verify the counter value is 0\r",
+							"  // Reset the counter to 0 in the environment variables\r",
+							"  pm.environment.set(\"currentCount\", 0);\r",
+							"\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/reset/{{namespace}}/{{key}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"reset",
+						"{{namespace}}",
+						"{{key}}"
+					]
+				},
+				"description": "Resets the hit counter to zero"
+			},
+			"response": []
+		},
+		{
+			"name": "GetInvalidEndpoint",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Checks that an invalid url will return a 404 error\r",
+							"pm.test('404 Error is returned', function () {\r",
+							"  pm.response.to.have.status(404); \r",
+							"\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/mouse/{{namespace}}/{{key}}/trap",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"mouse",
+						"{{namespace}}",
+						"{{key}}",
+						"trap"
+					]
+				},
+				"description": "Returns a 404 for an invalid endpoint"
+			},
+			"response": []
+		},
+		{
+			"name": "IncrementCounter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Checks that the response is successful\r",
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"// Checks that the response contains the value field\r",
+							"pm.test(\"Response has the required field - value\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.have.property('value');\r",
+							"});\r",
+							"\r",
+							"// Checks that the response is not a negative number and is a valid integer\r",
+							"pm.test(\"Value is a non-negative integer\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.value).to.exist.and.to.be.a('number');\r",
+							"    pm.expect(responseData.value).to.be.at.least(0);\r",
+							"});\r",
+							"\r",
+							"// Checks that the response time is in an acceptable range\r",
+							"pm.test(\"Response time is within an acceptable range\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"//Checks that the count is incremented by 1 from the existing value for each request\r",
+							"pm.test(\"Count should be incremented by 1\", function () {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const actualCount = responseJson.value;\r",
+							"    const expectedCount = pm.environment.get(\"expectedCount\");\r",
+							"    \r",
+							"    pm.expect(actualCount).to.equal(expectedCount);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Get the current count value as a number\r",
+							"const currentCount = parseInt(pm.environment.get(\"currentCount\"));\r",
+							"\r",
+							"// Calculate the expected incremented value\r",
+							"const expectedCount = currentCount + 1;\r",
+							"\r",
+							"// Set the expected count as an environment variable\r",
+							"pm.environment.set(\"expectedCount\", expectedCount);\r",
+							"\r",
+							"// Update the current count value for the next request\r",
+							"pm.environment.set(\"currentCount\", expectedCount);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/hit/{{namespace}}/{{key}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"hit",
+						"{{namespace}}",
+						"{{key}}"
+					]
+				},
+				"description": "Increments the hit counter for each request"
+			},
+			"response": []
+		},
+		{
+			"name": "GetCounterValue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Retrieve the timestamp with tolerance from the environment variable\r",
+							"const timestampWithTolerance = new Date(pm.environment.get(\"timestampWithTolerance\"));\r",
+							"\r",
+							"// Parse the response timestamp from the response body (adjust as needed)\r",
+							"const responseTimestamp = new Date(pm.response.json().timestamp);\r",
+							"\r",
+							"// Check if the response timestamp is greater than or equal to the timestamp with tolerance\r",
+							"pm.test(\"Timestamp within Tolerance Test\", function () {\r",
+							"    pm.expect(responseTimestamp.getTime()).to.be.above(timestampWithTolerance.getTime());\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// The purpose of this is to simulate something that could expire in a payments environment\r",
+							"// This could be a token, OTP or even a Debit/Credit card\r",
+							"// Define the time tolerance in seconds (adjust as needed)\r",
+							"const timeToleranceSeconds = 180; // 1 minute tolerance\r",
+							"\r",
+							"// Calculate the timestamp with the time tolerance\r",
+							"const currentTime = new Date();\r",
+							"const timestampWithTolerance = new Date(currentTime.getTime() - timeToleranceSeconds * 1000);\r",
+							"\r",
+							"// Store the timestamp with tolerance as an ISO string in an environment variable\r",
+							"pm.environment.set(\"timestampWithTolerance\", timestampWithTolerance.toISOString());\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/get/{{namespace}}/{{key}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"get",
+						"{{namespace}}",
+						"{{key}}"
+					]
+				},
+				"description": "Gets the current value of the hit counter"
+			},
+			"response": []
+		},
+		{
+			"name": "GetNamespace1Key(Chain1)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Stores the value of the key for Namespace1 for the next test\r",
+							"pm.test('Store key value for Namespace1', function () {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const value = responseJson.value;\r",
+							"    pm.environment.set('key2Value', value);\r",
+							"});\r",
+							"\r",
+							"// Negative test, expect to fail\r",
+							"// Get the namespace from the environment variable\r",
+							"const namespace = pm.environment.get('invalidNamespace');\r",
+							"\r",
+							"// Define a regular expression pattern to match special characters\r",
+							"const specialCharsPattern = /[!@#$%^&*()_+{}\\[\\]:;<>,.?~\\\\]/;\r",
+							"\r",
+							"// Check if the namespace contains any special characters\r",
+							"pm.test('Namespace should not contain special characters', function () {\r",
+							"    pm.expect(namespace).to.not.match(specialCharsPattern);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/get/namespace1/key2",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"get",
+						"namespace1",
+						"key2"
+					]
+				},
+				"description": "Stores the value for the namespace and key pair"
+			},
+			"response": []
+		},
+		{
+			"name": "GetNamespace2Key(Chain2)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Checks the key value of GetNamespace1 and GetNamespace2 and asserts that they are not equal\r",
+							"pm.test('Namespace and key combination are unique', function () {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const key3Value = responseJson.value;\r",
+							"    const key2Value = pm.environment.get('key2Value');\r",
+							"    \r",
+							"    pm.expect(key3Value).to.not.equal(key2Value);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/get/namespace2/key3",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"get",
+						"namespace2",
+						"key3"
+					]
+				},
+				"description": "Gets the value for the namespace and keypair and compares it to the first Chain(1) test to check that they are unique"
+			},
+			"response": []
+		}
+	]
+}

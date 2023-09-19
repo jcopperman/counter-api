@@ -27,4 +27,4 @@ To use the Counter API, make HTTP requests to the provided endpoints, specifying
 After installing the dependencies, you can start the server by running:
 
 ```bash
-npm start
+node app.js
