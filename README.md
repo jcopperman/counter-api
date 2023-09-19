@@ -28,3 +28,5 @@ After installing the dependencies, you can start the server by running:
 
 ```bash
 node app.js
+```
+The api will be served on port 4000 which you can configure in `const PORT = process.env.PORT || 4000;` in `app.js`
